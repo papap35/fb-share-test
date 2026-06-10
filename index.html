@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FB Share Methods POC (Fully Dynamic)</title>
+    <title>FB Share Methods POC (Default Demo Target)</title>
     <style>
         body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto; background-color: #f9f9f9; color: #333; }
         .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
@@ -22,14 +22,14 @@
         
         .log { background: #222; color: #00ff00; padding: 15px; border-radius: 5px; font-family: monospace; white-space: pre-wrap; margin-top: 20px; max-height: 250px; overflow-y: auto; }
         .hint { font-size: 13px; color: #666; margin-top: 5px; }
-        .status-badge { inline-block: padding: 3px 8px; border-radius: 3px; font-size: 12px; font-weight: bold; }
+        .status-badge { display: inline-block; padding: 3px 8px; border-radius: 3px; font-size: 12px; font-weight: bold; }
         .status-uninit { background: #ffebee; color: #c62828; }
         .status-ready { background: #e8f5e9; color: #2e7d32; }
     </style>
 </head>
 <body>
 
-    <h2>Facebook 分享方式 POC (動態設定版)</h2>
+    <h2>Facebook 分享方式 POC 控制台</h2>
     
     <div class="card">
         <h3 style="margin-top:0;">1. Facebook SDK 配置</h3>
@@ -51,7 +51,7 @@
         <h3 style="margin-top:0;">2. 測試分享目標</h3>
         <div class="form-group">
             <label for="targetUrl">要測試分享的網址 (URL)：</label>
-            <input type="url" id="targetUrl" placeholder="https://example.com" value="https://example.com">
+            <input type="url" id="targetUrl" placeholder="https://example.com" value="https://papap35.github.io/fb-share-test/share-target.html">
         </div>
     </div>
 
@@ -67,12 +67,19 @@
     <div id="fb-root-container"></div>
 
     <script>
-        // 頁面載入時自動還原上一次填寫的資料
+        // 設定預設的 Demo 網址
+        const defaultUrl = "https://papap35.github.io/fb-share-test/share-target.html";
+
+        // 頁面載入時自動還原上一次填寫的資料，若無舊資料則帶入預設值
         window.addEventListener('DOMContentLoaded', () => {
             if (localStorage.getItem('poc_app_id')) document.getElementById('appId').value = localStorage.getItem('poc_app_id');
             if (localStorage.getItem('poc_fb_version')) document.getElementById('fbVersion').value = localStorage.getItem('poc_fb_version');
-            if (localStorage.getItem('poc_share_url')) document.getElementById('targetUrl').value = localStorage.getItem('poc_share_url');
-            logMessage("頁面載入完成，請先配置 App ID 並點擊初始化。");
+            
+            // 優先讀取 localStorage，其次讀取預設網址
+            const savedUrl = localStorage.getItem('poc_share_url');
+            document.getElementById('targetUrl').value = savedUrl ? savedUrl : defaultUrl;
+            
+            logMessage("頁面載入完成。已預設帶入 Meta Data Demo 目標網頁網址。");
         });
 
         // 動態初始化 FB SDK 的核心邏輯
@@ -85,22 +92,18 @@
                 return;
             }
 
-            // 儲存設定
             localStorage.setItem('poc_app_id', appId);
             localStorage.setItem('poc_fb_version', version);
 
             logMessage(`正在嘗試初始化 SDK... (App ID: ${appId}, 版本: ${version})`);
 
-            // 1. 清理舊的 SDK 殘留（如果有心的話）
             window.FB = undefined; 
             const container = document.getElementById('fb-root-container');
-            container.innerHTML = '<div id="fb-root"></div>'; // 重置 fb-root 節點
+            container.innerHTML = '<div id="fb-root"></div>'; 
             
-            // 移除舊的 script 標籤防止重複載入
             const oldScript = document.getElementById('facebook-jssdk');
             if (oldScript) oldScript.remove();
 
-            // 2. 定義 FB 異步初始化回調
             window.fbAsyncInit = function() {
                 try {
                     FB.init({
@@ -116,7 +119,6 @@
                 }
             };
 
-            // 3. 動態插入 FB SDK Script
             const fjs = document.getElementsByTagName('script')[0];
             const js = document.createElement('script');
             js.id = 'facebook-jssdk';
@@ -127,7 +129,6 @@
             fjs.parentNode.insertBefore(js, fjs);
         }
 
-        // 取得並驗證當前輸入的網址
         function getTargetUrl() {
             const urlInput = document.getElementById('targetUrl').value.trim();
             if (!urlInput) { alert("請先輸入網址！"); return null; }
@@ -182,7 +183,7 @@
             const left = (screen.width - width) / 2;
             const top = (screen.height - height) / 2;
             
-            logMessage(`呼叫 Sharer.php (此方式不依賴 App ID) -> 網址: ${url}`);
+            logMessage(`呼叫 Sharer.php -> 網址: ${url}`);
             window.open(sharerUrl, 'facebook-share-dialog', `width=${width},height=${height},top=${top},left=${left}`);
         }
 
@@ -199,8 +200,8 @@
             logMessage(`呼叫 原生分享選單 -> 網址: ${url}`);
             try {
                 await navigator.share({
-                    title: 'POC 測試分享',
-                    text: '動態參數分享測試',
+                    title: '🚀 這是 POC 測試網頁的超酷標題！',
+                    text: '看看這個包含完整 Meta Data 的分享展示！',
                     url: url,
                 });
                 logMessage("Navigator.share 喚起成功。");
