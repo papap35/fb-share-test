@@ -2,6 +2,12 @@
 
 本專案旨在驗證與評估三種在網頁前端實作 Facebook 連結分享的主流技術方案。透過此小型 POC，我們將動態觀察不同分享機制的設定成本、使用者體驗（UX）以及 Open Graph (OG) Meta 標籤的抓取表現。
 
+## 🌐 專案動態展示 (Live Demo)
+
+* **POC 測試控制台**：[https://papap35.github.io/fb-share-test/index.html](https://papap35.github.io/fb-share-test/index.html)
+* **測試目標網頁 (Meta Data 頁)**：[https://papap35.github.io/fb-share-test/share-target.html](https://papap35.github.io/fb-share-test/share-target.html)
+
+---
 ## 🎯 驗證的三種分享方式
 
 1. **Facebook JavaScript SDK (`FB.ui`)**：官方提供的重量級生態系方案，具備豐富的互動與回呼（Callback）機制。
