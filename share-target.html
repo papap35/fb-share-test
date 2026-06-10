@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta property="og:url" content="https://your-domain.com/share-target.html" />
+    
+    <meta property="og:type" content="website" />
+    
+    <meta property="og:title" content="🚀 這是 POC 測試網頁的超酷標題！" />
+    
+    <meta property="og:description" content="這是一頁專門為了測試 Facebook JS SDK、Sharer.php 以及 Navigator.share 設計的動態 Meta Data 展示頁。在這裡你可以看到美麗的預覽圖與引人入勝的摘要。" />
+    
+    <meta property="og:image" content="https://picsum.photos/1200/630" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="POC 測試預覽圖" />
+
+    <meta property="og:site_name" content="前端分享技術驗證中心" />
+
+    <meta property="fb:app_id" content="YOUR_FB_APP_ID" />
+
+    <title>FB Meta Data Demo Target Page</title>
+    
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; padding: 40px; max-width: 800px; margin: 0 auto; background-color: #f0f2f5; color: #1c1e21; }
+        .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .preview-card { border: 1px solid #ddd; border-radius: 8px; overflow: hidden; margin-top: 20px; background: #fff; max-width: 500px; }
+        .preview-img { width: 100%; height: auto; display: block; }
+        .preview-content { padding: 12px; background: #f2f3f5; border-top: 1px solid #ddd; }
+        .preview-domain { font-size: 12px; color: #606770; text-transform: uppercase; }
+        .preview-title { font-weight: bold; font-size: 16px; margin: 5px 0; color: #1c1e21; }
+        .preview-desc { font-size: 14px; color: #606770; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        code { background: #e4e6eb; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🎯 這是被分享的目標 Demo 頁面</h1>
+        <p>當你把這一頁的網址貼到 Facebook，或者用剛才的 POC 工具分享這一頁時，Facebook 的爬蟲會讀取本頁 <code>&lt;head&gt;</code> 裡的 <code>og:tags</code>，並在臉書上生成如下方的預覽卡片：</p>
+        
+        <hr>
+        
+        <h3>💻 模擬 Facebook 上的呈現外觀：</h3>
+        <div class="preview-card">
+            <img class="preview-img" src="https://picsum.photos/1200/630" alt="FB Preview">
+            <div class="preview-content">
+                <div class="preview-domain">YOUR-DOMAIN.COM</div>
+                <div class="preview-title">🚀 這是 POC 測試網頁的超酷標題！</div>
+                <div class="preview-desc">這是一頁專門為了測試 Facebook JS SDK、Sharer.php 以及 Navigator.share 設計的動態 Meta Data 展示頁...</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
